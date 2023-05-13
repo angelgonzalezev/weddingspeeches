@@ -23,7 +23,10 @@ const CreateSpeechComponent = () => {
             setLoading(false);
             setResponse(res);
         }).catch(
-            e => console.log(e)
+            e => {
+                console.log(e);
+                setResponse('Lo sentimos, ha ocurrido un error. Inténtelo más tarde.');
+            }
         );
     }
 
