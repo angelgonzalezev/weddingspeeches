@@ -4,7 +4,7 @@ import { auth, db } from '../firebase';
 
 const url = 'https://chatgpt53.p.rapidapi.com/';
 const RAPID_API_KEY = process.env.REACT_APP_RAPID_API_KEY;
-const user = auth.currentUser;
+const user = auth.currentUser; 
 
 class FormService{
   getSpeech = async (data) => {
@@ -38,12 +38,11 @@ class FormService{
       }
   }
 
-  getUserSpeeches = async () => {
-    const _user = user;
+  getUserSpeeches = async (_user) => {
     const q = query(collection(db, "speeches"), where("userId", "==", _user?.uid));
     const querySnapshot = await getDocs(q);
     const speeches = [];
-    querySnapshot.forEach((doc) => speeches.push(doc.data()));
+      querySnapshot.forEach((doc) => speeches.push(doc.data()));
 
     return speeches;
   }
@@ -54,9 +53,6 @@ class FormService{
         speech,
         userId: userUid
     });
-
-    console.log(response);
-
     return response;
   }
 }
