@@ -39,10 +39,13 @@ class FormService{
   }
 
   getUserSpeeches = async () => {
-    const q = query(collection(db, "speeches"), where("userId", "==", user.uid));
+    const _user = user;
+    const q = query(collection(db, "speeches"), where("userId", "==", _user?.uid));
     const querySnapshot = await getDocs(q);
+    const speeches = [];
+    querySnapshot.forEach((doc) => speeches.push(doc.data()));
 
-    console.log('SPEECHES', querySnapshot);
+    return speeches;
   }
 
   postUserSpeech = async (speech) => {
