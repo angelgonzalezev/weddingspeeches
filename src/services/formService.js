@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from '../firebase';
+import { useAuth } from '../context/authContext';
 
 const url = 'https://chatgpt53.p.rapidapi.com/';
 const RAPID_API_KEY = process.env.REACT_APP_RAPID_API_KEY;
@@ -31,6 +34,14 @@ class FormService{
       } catch (error) {
           console.error(error);
       }
+  }
+
+  getUserSpeeches = async () => {
+    const {user} = useAuth();
+    const q = query(collection(db, "speeches"), where("userId", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+
+    console.log('SPEECHES', querySnapshot);
   }
 }
 

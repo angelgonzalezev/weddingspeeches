@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import InputComponent from '../../../common/components/InputComponent'
-import formService from '../services/formService';
-import {ReactComponent as Spinner} from '../../../assets/icons/spinner.svg'
+import formService from '../../../services/formService';
 import PopupComponent from '../../../common/components/PopupComponent';
+import ButtonComponent from '../../../common/components/ButtonComponent';
 
 const CreateSpeechComponent = () => {
     const [form, setForm] = useState();
@@ -20,12 +20,13 @@ const CreateSpeechComponent = () => {
     const getSpeech = () => {
         setLoading(true);
         formService.getSpeech(form).then(res=> {
-            setLoading(false);
             setResponse(res);
+            setLoading(false);
         }).catch(
             e => {
                 console.log(e);
                 setResponse('Lo sentimos, ha ocurrido un error. Inténtelo más tarde.');
+                setLoading(false);
             }
         );
     }
@@ -65,14 +66,7 @@ const CreateSpeechComponent = () => {
                     onWrite={(value) => changeForm('story', value)}
                 />
                 <div className='w-full flex items-center justify-center mt-8'>
-                    <button
-                        onClick={getSpeech}
-                        className="px-8 py-4 rounded-full bg-gradient-to-r from-rose-500 to-pink-400 text-lg text-white focus:outline-none focus:ring focus:ring-violet-300 flex items-center justify-center">
-                            {loading && (
-                                <Spinner className='animate-spin mr-3' width={40} fill='white'/>
-                            )}
-                            Obtener discurso
-                    </button>
+                    <ButtonComponent text={'Obtener discurso'} onHandleButton={() => getSpeech()} loading={loading}/>
                 </div>
             </div>
             {response && (
