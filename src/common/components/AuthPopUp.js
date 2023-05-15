@@ -4,7 +4,6 @@ import ButtonComponent from './ButtonComponent';
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import authService from '../../services/authService';
-import formService from '../../services/formService';
 
 
 const AuthPopUp = ({onClose}) => {

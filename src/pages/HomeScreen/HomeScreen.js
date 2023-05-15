@@ -1,5 +1,4 @@
 import React from 'react'
-import HeaderComponent from '../../common/components/HeaderComponent'
 import CreateSpeechComponent from './components/CreateSpeechComponent'
 import HeroComponent from '../../common/components/HeroComponent'
 import FooterComponent from '../../common/components/FooterComponent'
