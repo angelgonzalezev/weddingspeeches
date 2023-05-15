@@ -3,11 +3,13 @@ import InputComponent from '../../../common/components/InputComponent'
 import formService from '../../../services/formService';
 import PopupComponent from '../../../common/components/PopupComponent';
 import ButtonComponent from '../../../common/components/ButtonComponent';
+import { useAuth } from '../../../context/authContext';
 
 const CreateSpeechComponent = () => {
     const [form, setForm] = useState();
     const [loading, setLoading] = useState();
     const [response, setResponse] = useState();
+    const {user} = useAuth();
 
     const changeForm = (field, data) => {
         const value = data.target.value;
@@ -19,7 +21,7 @@ const CreateSpeechComponent = () => {
 
     const getSpeech = () => {
         setLoading(true);
-        formService.getSpeech(form).then(res=> {
+        formService.getSpeech(form, user).then(res=> {
             setResponse(res);
             setLoading(false);
         }).catch(
@@ -30,6 +32,11 @@ const CreateSpeechComponent = () => {
             }
         );
     }
+
+    const onHandlerClose = () => {
+        setResponse(undefined);
+        window.location.reload(false);
+    };
 
     return (
         <div className='w-full'>
@@ -70,7 +77,7 @@ const CreateSpeechComponent = () => {
                 </div>
             </div>
             {response && (
-                <PopupComponent text={response} onClickButton={() => setResponse(undefined)} buttonText={'Cerrar'}/>
+                <PopupComponent text={response} onClickButton={() => onHandlerClose()} buttonText={'Cerrar'}/>
             )}
         </div>
     )

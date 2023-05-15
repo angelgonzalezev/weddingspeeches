@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
-import { auth, db } from '../firebase';
+import { db } from '../firebase';
 
 const url = 'https://chatgpt53.p.rapidapi.com/';
 const RAPID_API_KEY = process.env.REACT_APP_RAPID_API_KEY;
-const user = auth.currentUser; 
 
 class FormService{
-  getSpeech = async (data) => {
+  getSpeech = async (data, user) => {
     const speechContent  = `Mi amigo se llama ${data.name}. ${data.whoIs}. ${data.relationship}. Se va a casar con ${data.partnerName}, ${data.partnerOpinion}. Hablando de ${data.name}, recuerdo cuando ${data.story}. <br/> Dado el texto anterior, escríbeme un discurso para la boda de ${data.name}:`
 
     const options = {
@@ -31,7 +30,7 @@ class FormService{
       try {
           const response = await axios(options);
           const textSpeech = response.data.choices[0].message.content;
-          this.postUserSpeech(textSpeech);
+          this.postUserSpeech(textSpeech, user);
           return textSpeech;
       } catch (error) {
           console.error(error);
@@ -42,12 +41,12 @@ class FormService{
     const q = query(collection(db, "speeches"), where("userId", "==", _user?.uid));
     const querySnapshot = await getDocs(q);
     const speeches = [];
-      querySnapshot.forEach((doc) => speeches.push(doc.data()));
+    querySnapshot.forEach((doc) => speeches.push(doc.data()));
 
     return speeches;
   }
 
-  postUserSpeech = async (speech) => {
+  postUserSpeech = async (speech, user) => {
     const userUid = user?.uid ?? '000000000';
     const response = await addDoc(collection(db, "speeches"),{
         speech,

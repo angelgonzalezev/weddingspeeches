@@ -26,6 +26,7 @@ const HomeScreen = () => {
       {user && speeches && (
         <div className='my-10'>
           <p className='text-2xl font-semibold mb-5'>Tus discursos 📝</p>
+          {speeches.length === 0 && <p className='text-gray-300 text-md font-light italic'>Aquí aparecerán tus discursos...</p>}
           <div className='flex flex-col md:flex-row gap-8'>
             {speeches.map((speech, idx) => (
               <div className='bg-green-50 h-96 w-full max-w-96 rounded-xl p-8'>
