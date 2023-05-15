@@ -2,15 +2,14 @@ import React, {useCallback, useEffect, useState} from 'react'
 import CreateSpeechComponent from './components/CreateSpeechComponent'
 import HeroComponent from '../../common/components/HeroComponent'
 import FooterComponent from '../../common/components/FooterComponent'
-import { auth } from '../../firebase'
 import formService from '../../services/formService'
+import { useAuth } from '../../context/authContext'
 
 const HomeScreen = () => {
-  const user = auth.currentUser;
   const [speeches, setSpeeches] = useState();
+  const {user} = useAuth();
 
   const getSpeeches = useCallback(() => {
-
       formService.getUserSpeeches().then( res => {
         setSpeeches(res);
       })
@@ -18,12 +17,9 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (!user){
-      return;
-    }else {
-      getSpeeches();
-    }
-  }, [user, getSpeeches])
+    getSpeeches();
+  }, [user, getSpeeches]);
+
   return (
     <div className='px-3 lg:p-0'>
       <HeroComponent />

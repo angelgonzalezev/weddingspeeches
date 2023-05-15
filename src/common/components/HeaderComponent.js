@@ -8,7 +8,11 @@ const HeaderComponent = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [openPopUp, setOpenPopUp] = useState(false);
   const {user, loading} = useAuth();
-  
+
+  const onHandler = () => {
+    setOpenPopUp(!openPopUp);
+    setShowMenu(!showMenu);
+  }
   return (
     <div className='w-full py-3'>
       <div className='flex flex-row w-full items-center justify-between px-3'>
@@ -24,14 +28,22 @@ const HeaderComponent = () => {
             <AiOutlineMenu size={25} onClick={() => setShowMenu(true)}/>
           )}
         </div>
+        <div className={showMenu ? 'sm:hidden bg-pink-100 p-5 pb-20 w-1/2 absolute top-32 right-0 duration-500' : 'bg-pink-100 p-5 pb-20 w-1/2 absolute top-32 hidden duration-500'}>
+          <div className='py-3 hover:border-b hover:border-black' onClick={onHandler}>
+            <p className='text-md font-semibold'>Iniciar sesión</p>
+          </div>
+        </div>
         {user && !loading ? (
-          <p className='text-md font-medium'>Hola 👋 {user.email}</p>
+          <p className='text-md font-medium hidden sm:block'>Hola 👋 {user.email}</p>
         ) : (
           <div className='hidden sm:block'>
             <ButtonComponent text={'Iniciar sesión'} onHandleButton={() => setOpenPopUp(!openPopUp)}/>
           </div>
         )}
       </div>
+      {user && !loading ? (
+        <p className='text-sm font-medium m-3 sm:hidden'>Hola 👋 {user.email}</p>
+      ) : null}
       {openPopUp ? <AuthPopUp onClose={() => setOpenPopUp(!openPopUp)}/> : null}
     </div>
   )
