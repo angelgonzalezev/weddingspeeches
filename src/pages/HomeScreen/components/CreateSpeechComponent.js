@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import InputComponent from '../../../common/components/InputComponent'
-import formService from '../services/formService';
+import formService from '../../../services/formService';
 import PopupComponent from '../../../common/components/PopupComponent';
 import ButtonComponent from '../../../common/components/ButtonComponent';
 
